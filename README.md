@@ -19,6 +19,7 @@ $$v_i(t) = RC \frac{dv_o(t)}{dt} + v_o(t)$$
 為了解決時域微分方程在分析頻率響應時的複雜度，我們利用拉普拉斯變換（Laplace Transform）將系統從時域轉換至 $s$ 域。
 
 對時域微分方程兩邊取拉普拉斯變換：
+
 $$\mathcal{L}\{v_i(t)\} = \mathcal{L}\left\{RC \frac{dv_o(t)}{dt} + v_o(t)\right\}$$
 
 $$V_i(s) = RC \left[ sV_o(s) - v_o(0^-) \right] + V_o(s)$$

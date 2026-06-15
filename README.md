@@ -19,10 +19,9 @@ $$v_i(t) = RC \frac{dv_o(t)}{dt} + v_o(t)$$
 為了解決時域微分方程在分析頻率響應時的複雜度，我們利用拉普拉斯變換（Laplace Transform）將系統從時域轉換至 $s$ 域。
 
 對時域微分方程兩邊取拉普拉斯變換：
+$$\mathcal{L}\{v_i(t)\} = \mathcal{L}\{RC \frac{dv_o(t)}{dt} + v_o(t)\}$$
 
-$$\mathcal{L}\{v_i(t)\} = \mathcal{L}\left\{RC \frac{dv_o(t)}{dt} + v_o(t)\right\}$$
-
-$$V_i(s) = RC \left[ sV_o(s) - v_o(0^-) \right] + V_o(s)$$
+$$V_i(s) = RC [sV_o(s) - v_o(0^-)] + V_o(s)$$
 
 已知**初始狀態電容未充電**，即 $v_o(0^-) = 0$，上式可簡化為：
 $$V_i(s) = (RCs + 1)V_o(s)$$
@@ -53,16 +52,16 @@ $$V_o(s) = V_{o,\text{low}}(s) + V_{o,\text{noise}}(s)$$
 
 ### 1. 對目標低頻信號（單位階躍）的時域響應
 將低頻輸入 $V_{\text{low}}(s) = \frac{1}{s}$ 代入系統：
-$$V_{o,\text{low}}(s) = H(s) \cdot V_{\text{low}}(s) = \frac{\frac{1}{RC}}{s\left(s + \frac{1}{RC}\right)}$$
+$$V_{o,\text{low}}(s) = H(s) \cdot V_{\text{low}}(s) = \frac{\frac{1}{RC}}{s(s + \frac{1}{RC})}$$
 
 使用**部分分式展開法（Partial Fraction Expansion）**：
-$$\frac{\frac{1}{RC}}{s\left(s + \frac{1}{RC}\right)} = \frac{A'}{s} + \frac{B'}{s + \frac{1}{RC}}$$
+$$\frac{\frac{1}{RC}}{s(s + \frac{1}{RC})} = \frac{A'}{s} + \frac{B'}{s + \frac{1}{RC}}$$
 
 利用留數定理求得 $A' = 1$, $B' = -1$：
 $$V_{o,\text{low}}(s) = \frac{1}{s} - \frac{1}{s + \frac{1}{RC}}$$
 
 對其進行**反拉普拉斯變換（Inverse Laplace Transform）**，得到時域輸出：
-$$v_{o,\text{low}}(t) = \left( 1 - e^{-\frac{t}{RC}} \right) u(t)$$
+$$v_{o,\text{low}}(t) = (1 - e^{-\frac{t}{RC}}) u(t)$$
 
 > 💡 **物理意義分析**：
 > 當時間 $t \to \infty$ 時，$e^{-\frac{t}{RC}} \to 0$，輸出 $v_{o,\text{low}}(t) \to 1$。這說明目標低頻（直流）信號在經過短暫的暫態充電過程後，能夠**完整且無衰減地通過濾波器**。
@@ -70,24 +69,3 @@ $$v_{o,\text{low}}(t) = \left( 1 - e^{-\frac{t}{RC}} \right) u(t)$$
 ---
 
 ### 2. 對高頻雜訊的濾除效果驗證（頻域觀點）
-為了驗證系統對高頻雜訊的濾除效果，我們將傳遞函數移至虛軸 $s = j\omega$，以推導系統的**頻率響應（Frequency Response）**：
-$$H(j\omega) = \frac{1}{1 + j\omega RC}$$
-
-計算其**幅頻特性（Magnitude Response）**：
-$$|H(j\omega)| = \frac{1}{\sqrt{1 + (\omega RC)^2}}$$
-
-* **低頻段分析**：當輸入信號頻率很低（$\omega \to 0$）時，$$|H(j\omega)| \approx 1$$（信號不衰減）。
-* **高頻段分析**：當輸入為高頻雜訊，即雜訊頻率 $\omega = \omega_0 \gg \frac{1}{RC}$ 時：
-  $$(\omega_0 RC)^2 \gg 1 \implies |H(j\omega_0)| \approx \frac{1}{\omega_0 RC} \to 0$$
-
-**數學驗證結論**：高頻雜訊的輸出振幅會被乘以一個接近於 0 的衰減因子 $\frac{1}{\omega_0 RC}$。這在數學上嚴謹地證明了，該 RC 電路對於高頻雜訊具有極強的抑制與濾除效果，成功保留了低頻目標信號。
-
----
-
-## 五、 報告總結
-本題透過建立 RC 濾波器的物理微分方程，並應用拉普拉斯變換將其簡化為 $s$ 域的傳遞函數 $H(s) = \frac{1}{RCs+1}$。
-
-* **時域分析**表明，系統對低頻階躍信號具有良好的響應能力，最終穩態值能完整輸出。
-* **頻域分析**表明，隨著信號頻率 $\omega$ 的提高，系統的增益 $|H(j\omega)|$ 呈反比例急劇衰減。
-
-此結果完全驗證了 **RC 串聯電路作為低通濾波器**在信號採集系統中濾除高頻雜訊、保護目標低頻信號的有效性與實用性。
